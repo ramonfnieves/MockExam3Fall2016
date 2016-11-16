@@ -6,11 +6,11 @@ public class UniversityWrapperTest {
 
 	public static UniversityWrapper.University UPRM = new UniversityWrapper.University();
 
-	public static UniversityWrapper.Professor bienve = new UniversityWrapper.Professor(101, "Bienve", "VÃ©lez", "CSE");
-	public static UniversityWrapper.Professor juan = new UniversityWrapper.Professor(101, "JosÃ©", "Rivera", "Math");
+	public static UniversityWrapper.Professor bienve = new UniversityWrapper.Professor(101, "Bienve", "Vélez", "CSE");
+	public static UniversityWrapper.Professor juan = new UniversityWrapper.Professor(101, "José", "Rivera", "Math");
 
 	public static UniversityWrapper.StaffMember receptionistCSE = new UniversityWrapper.StaffMember(101, "Jenniffer Ortiz", "CSE");
-	public static UniversityWrapper.StaffMember receptionistMath = new UniversityWrapper.StaffMember(101, "JosÃ© Rivera", "Math");
+	public static UniversityWrapper.StaffMember receptionistMath = new UniversityWrapper.StaffMember(101, "José Rivera", "Math");
 
 	static UniversityWrapper.Course icom4015 = new UniversityWrapper.Course("ICOM4015", "Advanced Programming", 3, bienve);
 	public static UniversityWrapper.Course inin4010 = new UniversityWrapper.Course("ININ 4010", "Engineering Probability and Statistics", 3, juan);
@@ -20,7 +20,7 @@ public class UniversityWrapperTest {
 	public static UniversityWrapper.Student rafael = new UniversityWrapper.Student(4, "Rafael", "Torres", false);
 	public static UniversityWrapper.Student pedro = new UniversityWrapper.Student(3, "Pedro", "Rivera", false);
 	public static UniversityWrapper.Student jose = new UniversityWrapper.Student(2, "Jose", "Morales", false);     
-	public static UniversityWrapper.Student maria = new UniversityWrapper.Student(1, "Maria", "MartÃ­nez", false);
+	public static UniversityWrapper.Student maria = new UniversityWrapper.Student(1, "Maria", "Martínez", false);
 	public static UniversityWrapper.Student joaquin = new UniversityWrapper.Student(7, "Joaquin", "Pillo", false);
 	public static UniversityWrapper.Student carmen = new UniversityWrapper.Student(8, "Carmen", "Feliciano", false);
 	
@@ -93,6 +93,7 @@ public class UniversityWrapperTest {
 		assertEquals("",icom4015.findGrade(carmen, "Ex1"), -1.0, epsilon);
 	}
 	
+	
 	@Test
 	public void testHasSomeCourse() {
 		assertTrue("hasSomeCourse(Professor): wrongly returns false", UPRM.hasSomeCourse(bienve));
@@ -105,7 +106,7 @@ public class UniversityWrapperTest {
 	
 	@Test
 	public void testDrop() {
-		UniversityWrapper.Student pepe = new UniversityWrapper.Student(9, "Pepe", "RamÃ­rez", false);
+		UniversityWrapper.Student pepe = new UniversityWrapper.Student(9, "Pepe", "Ramírez", false);
 		assertFalse("Student.isEnrolled returns true incorrectly", pepe.isEnrolled(icom4015));
 		assertFalse("Student.isEnrolled returns true incorrectly", pepe.isEnrolled(inin4010));
 		icom4015.enroll(pepe);
@@ -134,5 +135,15 @@ public class UniversityWrapperTest {
 		assertTrue("Graduate student not enroled correctly",ciic8995.isEnrolled(grad));
 		ciic8995.enroll(carla);
 		assertFalse("Undergrad student enroled correctly",ciic8995.isEnrolled(carla));
+	}
+	
+	@Test
+	public void testPerson() {
+		UniversityWrapper.Person p1 = carla;
+		UniversityWrapper.Person p2 = bienve;
+		UniversityWrapper.Person p3 = receptionistCSE;
+		assertTrue("Person.getFullName returns incorrect result", p1.getFullName().equals(carla.getFullName()));
+		assertTrue("Person.getType returns incorrect result", p2.getType().equals("Professor"));
+		assertTrue("Person.getID returns incorrect result", p3.getID() == receptionistCSE.getID());
 	}
 }

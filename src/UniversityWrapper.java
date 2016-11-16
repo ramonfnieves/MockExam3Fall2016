@@ -68,7 +68,7 @@ class UniversityWrapper {
 	/**
 	 * Represents a non-teaching member of the university staff
 	 */
-	public static class StaffMember {
+	public static class StaffMember  implements Person  {
 		private int ID;
 		String name;
 		String department;
@@ -91,12 +91,25 @@ class UniversityWrapper {
 		public String getDepartment() {
 			return department;
 		}
+
+		@Override
+		public String getFullName() {
+			return getName();
+		}
+
+		@Override
+		public String getType() {
+			if(this instanceof Person){
+				return "StaffMember";
+			}
+			return null;
+		}
 	}
 
 	/**
 	 * Represents a faculty member at the university
 	 */
-	public static class Professor {
+	public static class Professor  implements Person {
 		private int ID;
 		String firstName;
 		String lastName;
@@ -125,13 +138,24 @@ class UniversityWrapper {
 			return department;
 		}
 
+		@Override
+		public String getFullName() {
+			return getFirstName()+""+getLastName();
+		}
+
+		public String getType() {
+			if(this instanceof Person){
+				return "Professor";
+			}
+			return null;
+		}
 	}
 
 	/**
 	 * Represents a student attending the university. 
 	 * Every students has a unique ID, name and the number of credits that he is currently taking.
 	 */
-	public static class Student {
+	public static class Student  implements Person {
 
 		private int studentID;
 		private String first;
@@ -174,6 +198,18 @@ class UniversityWrapper {
 				}
 			}
 			c.setNumStudents(c.getNumStudents()-1);			
+		}
+
+		@Override
+		public String getFullName() {
+			return getFirstName()+""+getLastName();
+		}
+
+		public String getType() {
+			if(this instanceof Person){
+				return "Student";
+			}
+			return null;
 		}
 	}
 
@@ -275,26 +311,24 @@ class UniversityWrapper {
 
 		public String toString() { return code + ": " + title; }
 
+
 	}
 
 	public static class GradCourse extends Course{
 
-		private int numStudents;
-
 		public GradCourse(String code, String title, int credits, Professor professor) {
 			super(code, title, credits, professor);
-
 		}
 		
 		@Override
-		public boolean isGraduate() { return !super.isGraduate(); }
+		public boolean isGraduate() { return true; }
 
 		@Override
 		public void enroll(Student s){
-			if(isGraduate()){
-				if (this.getNumStudents() < getRollBook().length) {
-					getRollBook()[this.numStudents++] = new RollBookEntry(s);
-					s.setCredits(s.getCredits()+getCredits());
+			if(s.isGraduate()){
+				if (super.getNumStudents() < super.getRollBook().length) {
+					super.getRollBook()[super.numStudents++] = new RollBookEntry(s);
+					s.setCredits(s.getCredits()+super.getCredits());
 				}
 				else {
 					System.out.println("Fatal internal error: Attemp to register student in full course"); 
@@ -387,6 +421,15 @@ class UniversityWrapper {
 			}
 		}
 
+	}
+	
+	public interface Person {
+
+		public String getFullName();
+		
+		public String getType();
+		
+		public int getID();
 	}
 
 }
